@@ -13,7 +13,7 @@ export async function appendToSheet(data) {
   
   await sheets.spreadsheets.values.append({
     spreadsheetId: process.env.GOOGLE_SHEET_ID,
-    range: 'Sheet1!A1',
+    range: 'Feuille 1!A1',
     valueInputOption: 'RAW',
     requestBody: {
       values: [data],
