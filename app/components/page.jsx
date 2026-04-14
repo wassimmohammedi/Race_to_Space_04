@@ -1,10 +1,10 @@
-import Navbar from "./components/Navbar";
-import HeroSlider from "./components/HeroSlider";
-import AboutSection from "./sections/AboutSection";
-import ActivitiesSection from "./sections/ActivitiesSection";
-import TimelineSection from "./sections/TimelineSection";
-import CTASection from "./sections/CTASection";
-import Footer from "./components/Footer";
+import Navbar from "@/components/Navbar";
+import HeroSlider from "@/components/HeroSlider";
+import AboutSection from "@/sections/AboutSection";
+import ActivitiesSection from "@/sections/ActivitiesSection";
+import TimelineSection from "@/sections/TimelineSection";
+import CTASection from "@/sections/CTASection";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Race to Space – 4th Edition | Quanta Club",
