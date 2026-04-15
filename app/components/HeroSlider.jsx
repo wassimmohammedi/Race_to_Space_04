@@ -7,51 +7,39 @@ import { ChevronRight } from "lucide-react";
 const slides = [
   {
     id: 1,
-    headline: ["CATCH", "THE", "SIGNAL"],
-    accentWord: "SIGNAL",
-    sub: "CAN YOU DECODE IT",
+    headline: ["RACE", "TO", "SPACE"],
+    accentWord: "SPACE",
+    sub: "4TH EDITION · EXPLORING SPACE TECHNIQUES",
     bgDesktop: "/images/slide1.png",
     bgMobile: "/images/resposide1.png",
     accent: "#3b9eff",
-    decorImg: "/images/1.png",
-    decorPos: "bottom-8 right-8",
-    decorSize: "w-48 md:w-64",
   },
   {
     id: 2,
-    headline: ["BEYOND", "THE", "PITCH"],
-    accentWord: "PITCH",
-    sub: "HERE WHERE YOU LEARN, BUILD AND COMPETE.",
+    headline: ["MASTER", "THE", "TECH"],
+    accentWord: "TECH",
+    sub: "CONFERENCES & HANDS-ON WORKSHOPS",
     bgDesktop: "/images/slide2.jpg",
     bgMobile: "/images/resposide2.png",
     accent: "#2b7fff",
-    decorImg: "/images/2.png",
-    decorPos: "bottom-12 right-4",
-    decorSize: "w-40 md:w-56",
   },
   {
     id: 3,
-    headline: ["BEYOND", "THE", "LIMITS"],
-    accentWord: "LIMITS",
-    sub: "WHERE THE SCIENCE MEETS THE STARS",
-    bgDesktop: "/images/slide3.jpg",
+    headline: ["IGNITE", "THE", "SPARK"],
+    accentWord: "SPARK",
+    sub: "BY QUANTA CLUB · UNIVERSITY OF ALGIERS 1",
+    bgDesktop: "/images/slide3.png",
     bgMobile: "/images/resposide3.png",
     accent: "#4db8ff",
-    decorImg: "/images/3.png",
-    decorPos: "bottom-6 right-6",
-    decorSize: "w-44 md:w-60",
   },
   {
     id: 4,
-    headline: ["BEYOND", "THE", "STARS"],
-    accentWord: "STARS",
-    sub: "SPATIAL TECHNIQUES · INFINITE POSSIBILITIES",
-    bgDesktop: "/images/slide4.jpg",
+    headline: ["BUILD", "AND", "COMPETE"],
+    accentWord: "COMPETE",
+    sub: "APPLY YOUR KNOWLEDGE TO REAL-LIFE MISSIONS",
+    bgDesktop: "/images/slide2.png",
     bgMobile: "/images/resposide4.png",
     accent: "#60cfff",
-    decorImg: "/images/1.png",
-    decorPos: "bottom-10 right-10",
-    decorSize: "w-52 md:w-72",
   },
 ];
 
@@ -73,10 +61,16 @@ export default function HeroSlider() {
     setCurrent((p) => (p + 1) % slides.length);
   }, []);
 
+  const prev = useCallback(() => {
+    setDirection(-1);
+    setCurrent((p) => (p - 1 + slides.length) % slides.length);
+  }, []);
+
+  // Consistent Time Delay: Timer resets whenever `current` changes
   useEffect(() => {
-    const timer = setInterval(next, 5500);
-    return () => clearInterval(timer);
-  }, [next]);
+    const timer = setTimeout(next, 8000);
+    return () => clearTimeout(timer);
+  }, [current, next]);
 
   const goTo = (i) => {
     setDirection(i > current ? 1 : -1);
@@ -86,16 +80,16 @@ export default function HeroSlider() {
   const slide = slides[current];
 
   const slideVariants = {
-    enter: (dir) => ({ x: dir > 0 ? "6%" : "-6%", opacity: 0 }),
+    enter: (dir) => ({ x: dir > 0 ? "100%" : "-100%", opacity: 0 }),
     center: {
       x: 0,
       opacity: 1,
       transition: { duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94] },
     },
     exit: (dir) => ({
-      x: dir > 0 ? "-6%" : "6%",
+      x: dir > 0 ? "-20%" : "20%",
       opacity: 0,
-      transition: { duration: 0.3, ease: "easeIn" },
+      transition: { duration: 0.4, ease: "easeIn" },
     }),
   };
 
@@ -106,19 +100,30 @@ export default function HeroSlider() {
         <div className="stars-layer" />
       </div>
 
-      <AnimatePresence custom={direction} mode="wait">
+      <AnimatePresence custom={direction} initial={false}>
         <motion.div
-          key={slide.id}
+          key={current}
           custom={direction}
           variants={slideVariants}
           initial="enter"
           animate="center"
           exit="exit"
-          className="absolute inset-0"
+          drag="x" // Enables swiping
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={1}
+          onDragEnd={(e, { offset }) => {
+            // Trigger slide change if swiped far enough
+            if (offset.x < -50) {
+              next();
+            } else if (offset.x > 50) {
+              prev();
+            }
+          }}
+          className="absolute inset-0 cursor-grab active:cursor-grabbing"
         >
           {/* BACKGROUND IMAGE (RESPONSIVE) */}
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
             style={{
               backgroundImage: `url(${
                 isMobile ? slide.bgMobile : slide.bgDesktop
@@ -127,11 +132,11 @@ export default function HeroSlider() {
           />
 
           {/* Overlays */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
 
           {/* Content */}
-          <div className="relative z-10 flex flex-col justify-center h-full px-8 md:px-16 lg:px-24 max-w-3xl">
+          <div className="relative z-10 flex flex-col justify-center h-full px-8 md:px-16 lg:px-24 max-w-3xl pointer-events-none">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -197,11 +202,14 @@ export default function HeroSlider() {
 
             {/* CTA */}
             <motion.div
-              onClick={next}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent drag from interfering with click
+                next();
+              }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.95, duration: 0.3 }}
-              className="mt-8 flex items-center gap-3 cursor-pointer group w-fit"
+              className="mt-8 flex items-center gap-3 cursor-pointer group w-fit pointer-events-auto"
             >
               <span className="text-xs tracking-[0.25em] text-white/50 uppercase group-hover:text-white/80 transition-colors duration-300">
                 Swipe to explore
@@ -212,21 +220,6 @@ export default function HeroSlider() {
               />
             </motion.div>
           </div>
-
-          {/* DECOR */}
-          {slide.decorImg && (
-            <motion.img
-              src={slide.decorImg}
-              alt="decor"
-              initial={{ opacity: 0, scale: 0.85, rotate: -5 }}
-              animate={{ opacity: 0.9, scale: 1, rotate: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className={`absolute ${slide.decorPos} ${slide.decorSize} object-contain opacity-80 pointer-events-none select-none hidden md:block`}
-              style={{
-                filter: `drop-shadow(0 0 30px ${slide.accent}55)`,
-              }}
-            />
-          )}
         </motion.div>
       </AnimatePresence>
 

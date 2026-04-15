@@ -1,17 +1,19 @@
 "use client";
 
-import { FaInstagram, FaTwitter, FaEnvelope } from "react-icons/fa";
+
 
 const links = {
   Event: ["About", "Activities", "Timeline", "Register"],
   Club: ["Quanta Club", "Our Team", "Past Editions", "Partners"],
   Legal: ["Privacy Policy", "Terms of Use", "Code of Conduct"],
 };
+import { FaInstagram, FaFacebook, FaEnvelope, FaLinkedin } from "react-icons/fa";
 
 const socials = [
-  { icon: FaInstagram, href: "#" },
-  { icon: FaTwitter, href: "#" },
-  { icon: FaEnvelope, href: "#" },
+  { icon: FaInstagram, href: "https://www.instagram.com/quanta_club/" },
+  { icon: FaLinkedin, href: "https://www.linkedin.com/company/quanta-club/" },
+  { icon: FaFacebook, href: "https://www.facebook.com/quantaclubdz" },
+  { icon: FaEnvelope, href: "mailto:quantaclubdz@gmail.com" },
 ];
 
 export default function Footer() {

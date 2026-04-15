@@ -1,13 +1,17 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
 import SectionWrapper from "../components/SectionWrapper";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
+import RegistrationForm from "../components/RegistrationForm";
 
 export default function CTASection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  
+  // State to control the form modal
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   return (
     <SectionWrapper
@@ -75,15 +79,15 @@ export default function CTASection() {
           transition={{ delay: 0.65, duration: 0.6 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <a
-            href="#"
+          <button
+            onClick={() => setIsFormOpen(true)}
             className="group flex items-center gap-3 px-8 py-4 text-sm tracking-widest uppercase font-bold text-white bg-[#3b9eff] rounded-full hover:bg-[#5eafff] transition-all duration-300 shadow-[0_0_30px_#3b9eff55] hover:shadow-[0_0_50px_#3b9eff88]"
           >
             Register Now
             <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-          </a>
+          </button>
           <a
-            href="#"
+            href="#about"
             className="flex items-center gap-2 px-8 py-4 text-sm tracking-widest uppercase font-bold text-white/60 border border-white/20 rounded-full hover:border-white/40 hover:text-white transition-all duration-300"
           >
             Learn More
@@ -112,10 +116,49 @@ export default function CTASection() {
         }}
       />
 
+      {/* MODAL OVERLAY */}
+      <AnimatePresence>
+        {isFormOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-[#020510]/90 backdrop-blur-md"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl no-scrollbar shadow-[0_0_50px_#3b9eff33]"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setIsFormOpen(false)}
+                className="absolute top-4 right-4 z-50 p-2 rounded-full bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all"
+              >
+                <X size={20} />
+              </button>
+
+              {/* Render the Form inside the Modal */}
+              <RegistrationForm />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <style jsx>{`
         @keyframes floatY {
           0%, 100% { transform: translateY(-50%) rotate(-5deg); }
           50% { transform: translateY(calc(-50% - 16px)) rotate(5deg); }
+        }
+        /* Hide scrollbar for the modal so it looks cleaner */
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
         }
       `}</style>
     </SectionWrapper>
