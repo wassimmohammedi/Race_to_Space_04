@@ -65,7 +65,7 @@ export default function CTASection() {
           transition={{ delay: 0.5, duration: 0.6 }}
           className="text-white/50 text-sm md:text-base leading-relaxed max-w-lg mx-auto mb-12"
         >
-          Registration is open. Seats are limited. Don't miss your chance to be
+          Registration is open. Seats are limited. Don&apos;t miss your chance to be
           part of the 4th edition of Race to Space by Quanta Club.
         </motion.p>
 

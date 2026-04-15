@@ -68,7 +68,7 @@ export default function ActivitiesSection() {
         <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <p className="text-xs tracking-[0.3em] text-[#3b9eff] uppercase mb-4 font-mono">
-              / What You'll Experience
+            / What You&apos;ll Experience
             </p>
             <h2 className="text-4xl md:text-5xl font-black text-white uppercase leading-tight tracking-tight">
               MISSION{" "}
