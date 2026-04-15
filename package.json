@@ -1,15 +1,13 @@
 {
   "name": "rts4",
   "version": "0.1.0",
-  "private": true,  "scripts": {
-    "dev": "next dev",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
-  "scripts": {
-  "build": "next build"
-}
   "dependencies": {
     "framer-motion": "^12.38.0",
     "googleapis": "^171.4.0",
