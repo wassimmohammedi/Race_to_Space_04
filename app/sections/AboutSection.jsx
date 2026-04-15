@@ -5,10 +5,10 @@ import { useRef } from "react";
 import SectionWrapper from "../components/SectionWrapper";
 
 const images = [
-  { src: "/images/rts1.jpg", alt: "Race to Space Event", className: "col-span-1 row-span-2 min-h-[250px] md:min-h-[340px]" },
+  { src: "/images/rts1.png", alt: "Race to Space Event", className: "col-span-1 row-span-2 min-h-[250px] md:min-h-[340px]" },
   { src: "/images/rts2.jpg", alt: "Quanta Club Conference", className: "col-span-1 h-32 md:h-40" },
   { src: "/images/rts3.jpg", alt: "Hands-on Workshop", className: "col-span-1 h-32 md:h-40" },
-  { src: "/images/rts4.jpg", alt: "Student Project", className: "col-span-1 h-32 md:h-40" },
+  { src: "/images/rts4.png", alt: "Student Project", className: "col-span-1 h-32 md:h-40" },
   { src: "/images/rts5.jpg", alt: "Competition Winners", className: "col-span-1 h-32 md:h-40" },
 ];
 
