@@ -31,13 +31,12 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
+        <a href="https://www.instagram.com/quanta_club/" className="flex items-center gap-3 group">
           <img 
             src="/images/logo.png" 
             alt="Quanta Club Logo" 
             className="h-8 md:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />
-          <span className="font-black text-white tracking-widest text-sm uppercase">Quanta</span>
         </a>
 
         {/* Desktop links */}

@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { CheckCircle, AlertCircle, Rocket } from "lucide-react";
 
 export default function RegistrationForm() {
-  // Your active Google Apps Script Webhook
-  const scriptURL = "https://script.google.com/macros/s/AKfycbxYhr9wYxMdYt0l2P7F8MXr8O0Fzy_hXW47sgW48AsROmR1NpJS1_JbEMBUQunU1NBU/exec";
+  // Your NEW active Google Apps Script Webhook
+  const scriptURL = "https://script.google.com/macros/s/AKfycbxOyr8PY5Bor9UkywZbf0lz5rOD_Gegnr4qhadel8kvhgKYPWmQqynjIV-parRPCA5V/exec";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -26,19 +26,22 @@ export default function RegistrationForm() {
     e.preventDefault();
     setStatus("submitting");
 
+    // Convert our state into standard FormData. 
+    // This is the format Google natively understands and will never block.
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("email", formData.email);
+    data.append("fieldOfStudy", formData.fieldOfStudy);
+    data.append("yearOfStudy", formData.yearOfStudy);
+    data.append("message", formData.message);
+
     try {
-      // mode: "no-cors" is the magic key here. It forces the browser to send 
-      // the data to Google without getting blocked by Google's strict redirect rules.
       await fetch(scriptURL, {
         method: "POST",
         mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8",
-        },
-        body: JSON.stringify(formData),
+        body: data, // Send the FormData object directly
       });
 
-      // Because of "no-cors", if the fetch didn't crash, we assume success!
       setStatus("success");
       
       // 1. Show the Success Alert
@@ -48,7 +51,7 @@ export default function RegistrationForm() {
       setFormData({ name: "", email: "", fieldOfStudy: "", yearOfStudy: "", message: "" });
       setStatus("idle");
       
-      // 3. Send the user back to the main page / top of the site
+      // 3. Send the user back to the main page
       window.location.href = "/"; 
 
     } catch (error) {
@@ -56,7 +59,7 @@ export default function RegistrationForm() {
       setStatus("error");
       
       // 1. Show the Error Alert
-      alert("⚠️ There was a problem submitting your registration. Please check your internet connection and try again.");
+      alert("⚠️ There was a problem submitting your registration. Please check your internet connection.");
     }
   };
 
