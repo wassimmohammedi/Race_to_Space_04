@@ -31,10 +31,12 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="w-7 h-7 rounded-full border border-[#3b9eff]/60 flex items-center justify-center group-hover:border-[#3b9eff] transition-colors">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#3b9eff] group-hover:shadow-[0_0_8px_#3b9eff] transition-all" />
-          </div>
+        <a href="#" className="flex items-center gap-3 group">
+          <img 
+            src="/images/logo.png" 
+            alt="Quanta Club Logo" 
+            className="h-8 md:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+          />
           <span className="font-black text-white tracking-widest text-sm uppercase">Quanta</span>
         </a>
 
@@ -49,6 +51,7 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
+          
           <a
             href="#register"
             className="ml-4 px-5 py-2 text-xs tracking-[0.15em] uppercase font-semibold text-white bg-[#3b9eff]/20 border border-[#3b9eff]/40 rounded-full hover:bg-[#3b9eff]/30 hover:border-[#3b9eff]/70 transition-all duration-300"
@@ -87,6 +90,7 @@ export default function Navbar() {
                   {l.label}
                 </a>
               ))}
+              
               <a
                 href="#register"
                 onClick={() => setOpen(false)}

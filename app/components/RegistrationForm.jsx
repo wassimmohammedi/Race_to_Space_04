@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { CheckCircle, AlertCircle, Rocket } from "lucide-react";
 
 export default function RegistrationForm() {
-  // PASTE YOUR GOOGLE SCRIPT WEB APP URL HERE
-  const scriptURL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+  // Your active Google Apps Script Webhook
+  const scriptURL = "https://script.google.com/macros/s/AKfycbxYhr9wYxMdYt0l2P7F8MXr8O0Fzy_hXW47sgW48AsROmR1NpJS1_JbEMBUQunU1NBU/exec";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -16,7 +16,7 @@ export default function RegistrationForm() {
     message: "",
   });
 
-  const [status, setStatus] = useState("idle"); // idle, submitting, success, error
+  const [status, setStatus] = useState("idle");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,22 +27,36 @@ export default function RegistrationForm() {
     setStatus("submitting");
 
     try {
-      const response = await fetch(scriptURL, {
+      // mode: "no-cors" is the magic key here. It forces the browser to send 
+      // the data to Google without getting blocked by Google's strict redirect rules.
+      await fetch(scriptURL, {
         method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        setStatus("success");
-        setFormData({ name: "", email: "", fieldOfStudy: "", yearOfStudy: "", message: "" });
-        // Reset success message after 5 seconds
-        setTimeout(() => setStatus("idle"), 5000);
-      } else {
-        setStatus("error");
-      }
+      // Because of "no-cors", if the fetch didn't crash, we assume success!
+      setStatus("success");
+      
+      // 1. Show the Success Alert
+      alert("🚀 Mission Received! Your registration was successful.");
+      
+      // 2. Reset the form
+      setFormData({ name: "", email: "", fieldOfStudy: "", yearOfStudy: "", message: "" });
+      setStatus("idle");
+      
+      // 3. Send the user back to the main page / top of the site
+      window.location.href = "/"; 
+
     } catch (error) {
       console.error("Form submission error:", error);
       setStatus("error");
+      
+      // 1. Show the Error Alert
+      alert("⚠️ There was a problem submitting your registration. Please check your internet connection and try again.");
     }
   };
 
@@ -175,13 +189,6 @@ export default function RegistrationForm() {
             </span>
           )}
         </motion.button>
-
-        {status === "error" && (
-          <div className="flex items-center justify-center gap-2 mt-4 text-red-400 text-sm">
-            <AlertCircle className="w-4 h-4" />
-            Signal lost. Please try again later.
-          </div>
-        )}
       </form>
     </div>
   );
